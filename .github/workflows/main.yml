@@ -1,0 +1,22 @@
+name: Build Gaev Synth
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build VST3
+        run: |
+          cmake -S . -B build -A x64
+          cmake --build build --config Release
+
+      - name: Upload VST3
+        uses: actions/upload-artifact@v4
+        with:
+          name: Gaev-Synth-VST3
+          path: build/GaevSynth_artefacts/Release/VST3/
